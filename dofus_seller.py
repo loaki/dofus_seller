@@ -72,7 +72,7 @@ def action(d):
     l1 = int(get_number('im/lot_1.png', -100, 90))
     l10 = int(get_number('im/lot_10.png', -100, 90))
     l100 = int(get_number('im/lot_100.png', -100, 90))
-    #print (qu, l1, l10, l100)
+    print (qu, l1, l10, l100)
     if l1 == 0 and l10 == 0 and l100 == 0:
         pyautogui.click(d.item.x, d.item.y)
         return (0)
