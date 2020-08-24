@@ -1,11 +1,3 @@
-'''
-import pytesseract
-import os
-import sys
-import shutil
-import time
-
-'''
 import time
 import sys
 import pyautogui
@@ -75,21 +67,12 @@ def print_data(d):
     print('lot 100  =', int(get_number('im/lot_100.png', -100, 90)))
 
 def action(d):
-    
-    pic = pyautogui.screenshot(region=(d.quantity.x - 25, d.quantity.y - 15, 50, 30))
-    pic.save('im/quantity.png')
-    pic = pyautogui.screenshot(region=(d.lot_1.x - 100, d.lot_1.y - 20, 90, 40))
-    pic.save('im/lot_1.png')
-    pic = pyautogui.screenshot(region=(d.lot_10.x - 100, d.lot_10.y - 20, 90, 40))
-    pic.save('im/lot_10.png')
-    pic = pyautogui.screenshot(region=(d.lot_100.x - 100, d.lot_100.y - 20, 90, 40))
-    pic.save('im/lot_100.png')
-
+    get_im(d)
     qu = int(get_number('im/quantity.png', -100, 90))
     l1 = int(get_number('im/lot_1.png', -100, 90))
     l10 = int(get_number('im/lot_10.png', -100, 90))
     l100 = int(get_number('im/lot_100.png', -100, 90))
-    print (qu, l1, l10, l100)
+    #print (qu, l1, l10, l100)
     if l1 == 0 and l10 == 0 and l100 == 0:
         pyautogui.click(d.item.x, d.item.y)
         return (0)
@@ -107,8 +90,6 @@ def action(d):
         pyautogui.click(d.sell.x, d.sell.y, interval = 0.2)
     #time.sleep(1)
     return (0)
-    
-
 
 class pos():
     x = 0
@@ -129,14 +110,11 @@ if __name__ == "__main__":
     get_im(d)
     print_data(d)
     ex = input('correct data ? y/n\n')
-    print('press esc to quit')
-    while ex != 1 and ex != 'n':
+    if ex != 'y':
+        sys.exit()
+    print('\npress esc to quit')
+    while ex != 1:
         ex = action(d)
         if keyboard.is_pressed('escape') == True:
             print('exiting...')
             ex = 1
-        if keyboard.is_pressed('space') == True:
-            print('key pressed, exiting...')
-            ex = 1
-    print('error')
-    
