@@ -73,7 +73,7 @@ def action(d):
     l10 = int(get_number('im/lot_10.png', -100, 90))
     l100 = int(get_number('im/lot_100.png', -100, 90))
     print (qu, l1, l10, l100)
-    if l1 == 0 and l10 == 0 and l100 == 0:
+    if qu == 0 or (l1 == 0 and l10 == 0 and l100 == 0):
         pyautogui.click(d.item.x, d.item.y)
         return (0)
     if qu == 100:
@@ -86,9 +86,12 @@ def action(d):
         return (0)
     pyautogui.click(d.price.x, d.price.y, clicks = 2, interval = 0.2)
     pyautogui.write(str(price), interval = 0.05)
-    for i in range(1,10):
+    while qu == int(get_number('im/quantity.png', -100, 90)):
+        pic = pyautogui.screenshot(region=(d.quantity.x - 25, d.quantity.y - 15, 50, 30))
+        pic.save('im/quantity.png')
         pyautogui.click(d.sell.x, d.sell.y, interval = 0.2)
-    #time.sleep(1)
+        if keyboard.is_pressed('escape') == True:
+            return (1)
     return (0)
 
 class pos():
