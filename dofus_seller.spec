@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['dofus_seller.py'],
-             pathex=['C:\\Users\\jules\\Desktop\\dofus_seller'],
+             pathex=['C:\\Users\\jules\\Desktop\\dev\\dofus_seller'],
              binaries=[],
              datas=[],
              hiddenimports=[],

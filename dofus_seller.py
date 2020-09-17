@@ -55,7 +55,7 @@ def read_data(file_name, en, th):
     enhancer = ImageEnhance.Contrast(img)
     img = enhancer.enhance(float(en))
     img.save('im/greyscale.png')
-    pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'
+    pytesseract.pytesseract.tesseract_cmd = 'Tesseract-OCR/tesseract.exe'
     #TESSDATA_PREFIX:'C:/Program Files/Tesseract-OCR/tessdata'
     customconf = r'-c tessedit_char_whitelist=" 01234567859" --psm 6'
     return (pytesseract.image_to_string('im/greyscale.png', config=customconf))
