@@ -5,6 +5,7 @@ import re
 import mouse
 import pytesseract
 import msvcrt
+import os
 import keyboard
 from PIL import Image, ImageEnhance, ImageFilter
 
@@ -67,15 +68,18 @@ def print_data(d):
     print('lot 100  =', int(get_number('im/lot_100.png', -100, 90)))
 
 def action(d):
+    os.remove('im/quantity.png')
+    os.remove('im/lot_1.png')
+    os.remove('im/lot_10.png')
+    os.remove('im/lot_100.png')
     get_im(d)
     qu = int(get_number('im/quantity.png', -100, 90))
     l1 = int(get_number('im/lot_1.png', -100, 90))
     l10 = int(get_number('im/lot_10.png', -100, 90))
     l100 = int(get_number('im/lot_100.png', -100, 90))
-    print (qu, l1, l10, l100)
     if qu == 0 or (l1 == 0 and l10 == 0 and l100 == 0):
         pyautogui.click(d.item.x, d.item.y)
-        return (0)
+        return(0)
     if qu == 100:
         price = l100-1
     elif qu == 10:
@@ -83,16 +87,20 @@ def action(d):
     else:
         price = l1-1
     if price <= 0:
-        return (0)
+        return(0)
     pyautogui.click(d.price.x, d.price.y, clicks = 2, interval = 0.2)
     pyautogui.write(str(price), interval = 0.05)
     while qu == int(get_number('im/quantity.png', -100, 90)):
+        os.remove('im/quantity.png')
         pic = pyautogui.screenshot(region=(d.quantity.x - 25, d.quantity.y - 15, 50, 30))
         pic.save('im/quantity.png')
         pyautogui.click(d.sell.x, d.sell.y, interval = 0.2)
-        if keyboard.is_pressed('escape') == True:
-            return (1)
-    return (0)
+        if keyboard.is_pressed('escape'):
+            print('exiting...')
+            exit()
+        if keyboard.is_pressed('ctrl'):
+            return(0)
+    return(0)
 
 class pos():
     x = 0
@@ -113,11 +121,21 @@ if __name__ == "__main__":
     get_im(d)
     print_data(d)
     ex = input('correct data ? y/n\n')
+    pause = 0
     if ex != 'y':
         sys.exit()
-    print('\npress esc to quit')
+    print('\npress ctrl to pause, esc to quit')
     while ex != 1:
-        ex = action(d)
-        if keyboard.is_pressed('escape') == True:
+        if keyboard.is_pressed('escape'):
             print('exiting...')
-            ex = 1
+            exit()
+        if keyboard.is_pressed('ctrl'):
+            while keyboard.is_pressed('ctrl'):
+                pass
+            pause ^= 1
+            if pause == 1:
+                print('off')
+            if pause == 0:
+                print('on')
+        if pause == 0:
+            ex = action(d)
